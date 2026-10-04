@@ -1,15 +1,23 @@
 {
   "name": "claude-theme-studio",
   "description": "Theme Studio and Neon Usage: color themes and a live usage band for Claude Code.",
-  "owner": { "name": "Alliance Optima" },
+  "owner": {
+    "name": "Alliance Optima"
+  },
   "plugins": [
     {
       "name": "theme-studio",
       "source": "./theme-studio",
       "description": "Recolor Claude Code's chat from 441 palettes or one you mix: prompts, replies, tool rows, spinner, footer and panes.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "productivity",
-      "keywords": ["theme", "colors", "appearance", "customization", "ui"]
+      "keywords": [
+        "theme",
+        "colors",
+        "appearance",
+        "customization",
+        "ui"
+      ]
     },
     {
       "name": "neon-usage",
@@ -17,7 +25,13 @@
       "description": "A one-line neon band above the prompt: context fill, rate-limit windows and session cost.",
       "version": "1.0.0",
       "category": "productivity",
-      "keywords": ["usage", "context", "rate-limits", "cost", "status"]
+      "keywords": [
+        "usage",
+        "context",
+        "rate-limits",
+        "cost",
+        "status"
+      ]
     }
   ]
 }
