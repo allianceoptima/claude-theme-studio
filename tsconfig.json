@@ -1,0 +1,22 @@
+{
+  // Run `/plugin-types .claude/types` in Claude Code once: it writes the engine's
+  // API declarations there for the release you run. Only the core file is
+  // included: the enabled plugins' contracts it writes beside it would
+  // duplicate this repo's own.
+  "compilerOptions": {
+    "target": "es2023",
+    "lib": ["es2023"],
+    "types": [],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment"
+  },
+  "include": [".claude/types/claude-code.d.ts", "theme-studio/hooks", "theme-studio/types", "theme-studio/tests", "neon-usage/hooks", "neon-usage/types", "neon-usage/tests"]
+}
