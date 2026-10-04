@@ -68,6 +68,26 @@ describe('drawing', () => {
       expect(await ui.find({ type: 'Text', text: 'bold' })).toBeTruthy()
     })
 
+    test(`the footer chip opens the studio on ${surface}`, ENGINE, async ($, on) => {
+      const opened: { id: string; columns?: number; focus?: true }[] = []
+      // Stand in for the engine's pane host and record what the click asked for.
+      on('ui.open', (_$, e) => {
+        opened.push({ id: e.id, columns: e.columns, focus: e.focus })
+        return { value: { isPlaced: true } }
+      })
+      await theme($, 'dracula')
+      const ui = await $.ui.mount({
+        plugin: 'theme-studio',
+        surface,
+        component: 'SessionMode',
+        props: { modes: ['accept edits on'] },
+      })
+      const chip = await ui.find({ type: 'Button', key: 'open-studio' })
+      expect(chip?.props.label).toBe('🎨 Dracula')
+      await ui.press({ key: 'open-studio' })
+      expect(opened).toEqual([{ id: 'theme-studio', columns: 64, focus: true }])
+    })
+
     test(`with no theme the engine draws its own on ${surface}`, ENGINE, async ($, on) => {
       // Stand in for the engine's own drawing beneath the plugin.
       on('ui.render', { component: 'UserMessage' }, ($, e) => {

@@ -66,6 +66,8 @@ const MODE_LABEL: Record<string, string> = {
   'tool-use': 'working',
 }
 const SHIMMER_MS = 260
+// How wide the studio asks to dock beside a fullscreen transcript; the person's own drag wins.
+const STUDIO_COLUMNS = 64
 const YOURS = ['composer', 'sdk', 'bridge']
 
 const HELP = [
@@ -187,6 +189,11 @@ async function setBase($: EngineInterface, mode: BaseMode) {
   await resolveBase($)
 }
 
+/** Opens the studio: docked beside the transcript where the surface docks panes, else above the prompt. */
+async function openStudio($: EngineInterface) {
+  return $.ui.open({ id: PANE, title: 'Theme Studio', focus: true, closeOnEscape: true, columns: STUDIO_COLUMNS })
+}
+
 // ── Pure drawing helpers ─────────────────────────────────────────────────
 
 const formatDuration = (ms: number) => {
@@ -252,7 +259,7 @@ export const register: Register = on => {
     const arg = rest.join(' ')
     switch (verb.toLowerCase()) {
       case '':
-        await $.ui.open({ id: PANE, title: 'Theme Studio', focus: true })
+        await openStudio($)
         return { text: 'Theme Studio opened.' }
       case 'help':
       case '?':
@@ -364,21 +371,32 @@ export const register: Register = on => {
     )
   })
 
-  // The footer's mode labels as quiet text, with the theme as a chip.
+  // The footer's mode labels, then the theme's name as a button that opens the studio.
   on('ui.render', { component: 'SessionMode' }, async ($, e, next) => {
     const current = await currentLook($)
     if (!current) return next(e)
-    if (!(await read($, themeChrome))) {
-      return next({ ...e, props: { ...e.props, modes: [...e.props.modes, `🎨 ${current.pal.name}`] } })
-    }
     const { pal, look } = current
-    const { Box, Text } = $.ui.resolve(e)
+    const isChrome = await read($, themeChrome)
+    const { Box, Text, Button } = $.ui.resolve(e)
     return (
       <Box flexDirection="row" gap={1}>
-        {e.props.modes.length > 0 ? <Text color={look.muted}>{e.props.modes.join(' & ')}</Text> : null}
-        <Text bold color={look.onAccent} backgroundColor={look.accent}>
-          {` 🎨 ${pal.name} `}
-        </Text>
+        {e.props.modes.length > 0 ? (
+          isChrome ? (
+            <Text color={look.muted}>{e.props.modes.join(' & ')}</Text>
+          ) : (
+            <Text dimColor>{e.props.modes.join(' & ')}</Text>
+          )
+        ) : null}
+        <Box key="theme-chip" flexDirection="row">
+          {isChrome ? <Text color={look.accent}>{'▍'}</Text> : null}
+          <Button
+            key="open-studio"
+            label={`🎨 ${pal.name}`}
+            plain
+            hover={{ underline: true }}
+            onPress={() => void openStudio($)}
+          />
+        </Box>
       </Box>
     )
   })

@@ -29,7 +29,7 @@ theme's colors.
 | Tool rows | A colored stripe and strip on `Bash(…)`, `Read(…)` and friends: accent when done, highlight while running, red on error |
 | Folded tool runs, tool results | Matching stripes, so a call and its output read as one |
 | The spinner | A twinkling spark ✦ and the word shimmering letter by letter through the palette |
-| The footer | Mode labels in the theme's quiet color and a 🎨 chip with the theme's name |
+| The footer | Mode labels in the theme's quiet color and a 🎨 chip with the theme's name; click it to open the studio |
 | End-of-turn line | `✦ Baked for 12s` in theme colors (terminal) |
 | Slash-command output | A tinted strip, so `/theme`, `/cost` and friends stand out |
 | Mod panes | Every pane a plugin opens gets the theme's backdrop |
@@ -69,7 +69,7 @@ Start a new session (or restart the desktop app) and type `/theme`.
 
 | Command | Does |
 | --- | --- |
-| `/theme` | Open Theme Studio: search, browse collections, mix your own, toggle options |
+| `/theme` | Open Theme Studio: search, browse collections, mix your own, toggle options. Clicking the 🎨 chip in the footer does the same |
 | `/theme <name>` | Apply a theme. Matching ignores case and accents and takes prefixes: `/theme jurassic`, `/theme montreal` |
 | `/theme random [collection]` | A random theme, optionally from one collection: `/theme random zodiac` |
 | `/theme next` · `/theme prev` | Step through the current theme's collection |
