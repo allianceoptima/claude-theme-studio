@@ -9,11 +9,9 @@ your context is, your rate-limit windows and what the session has cost, in your
 theme's colors.
 
 <p align="center">
-  <a href="docs/demo.mp4">
-    <img src="docs/preview.png" alt="A Claude Code chat recolored with the Canadiens de Montréal theme: red prompt bubble, blue reply card, striped tool rows and the neon usage band" width="360">
-  </a>
+  <img src="docs/demo.webp" alt="Animated demo: a Claude Code chat switching themes, from Synthwave to Gryffindor, Canadiens de Montréal, Jurassic Park, Under the Sea, The Matrix, Cherry Blossom and Night City; each switch recolors the prompt, the reply, the tool rows, the spinner and the usage band" width="380">
   <br>
-  <a href="docs/demo.mp4"><b>▶ Watch the 26-second demo</b></a>
+  <sub>Stylized demo · <a href="https://github.com/allianceoptima/claude-theme-studio/raw/main/docs/demo.mp4">download the full 26-second video (MP4)</a></sub>
 </p>
 
 ```
@@ -35,6 +33,19 @@ theme's colors.
 | End-of-turn line | `✦ Baked for 12s` in theme colors (terminal) |
 | Slash-command output | A tinted strip, so `/theme`, `/cost` and friends stand out |
 | Mod panes | Every pane a plugin opens gets the theme's backdrop |
+
+### Gallery
+
+Eight of the 441 themes on the same conversation:
+
+<img src="docs/themes-grid.png" alt="A grid of eight recolored chats: Synthwave '84, Gryffindor Common Room, Canadiens de Montréal, Jurassic Park, Under the Sea, The Matrix, Cherry Blossom and Night City" width="100%">
+
+Mix your own from hex codes, roll a random one, or browse 63 collections:
+
+<img src="docs/features.png" alt="Left: the mixer with four hex color chips recoloring the chat. Middle: /theme random landing on Deep Nebula. Right: 441 themes in 63 collections" width="100%">
+
+<sub>The gallery is drawn in a cut-paper style from the plugin's real palettes and
+layout; in Claude Code it renders in your terminal's or the desktop app's own type.</sub>
 
 What it doesn't change: Claude Code's own window chrome (the sidebar, the prompt
 box, the app background). Plugins can't reach those, so no theme can either.
