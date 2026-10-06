@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'claude-code/testing'
 
-import { GROUPS, MINE, findPreset, isPalette, pickRandom, randomNeon, searchPresets, slug } from '../hooks/palette'
+import { GROUPS, MINE, findPreset, isPalette, pickRandom, randomMix, searchPresets, slug } from '../hooks/palette'
 
 describe('findPreset', () => {
   test('matches exact names first, ignoring case and accents', () => {
@@ -38,7 +38,7 @@ describe('collections', () => {
 
 describe('isPalette', () => {
   test('accepts the mixer\'s output and rejects junk', () => {
-    expect(isPalette(randomNeon(() => 0.3))).toBe(true)
+    expect(isPalette(randomMix(() => 0.3))).toBe(true)
     expect(isPalette({ id: 'x', name: 'x', group: 'x', accent: 'red' })).toBe(false)
     expect(isPalette(null)).toBe(false)
   })

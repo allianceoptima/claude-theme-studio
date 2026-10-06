@@ -87,3 +87,23 @@ export const loopGradient = (stops: readonly string[], steps = 4): string[] => {
   })
   return out
 }
+
+/** HSV (hue 0–360, saturation and value 0–1) to `#rrggbb`. */
+export const hsvToHex = (h: number, s: number, v: number): string => {
+  const k = (n: number) => (n + h / 60) % 6
+  const f = (n: number) => v - v * s * Math.max(0, Math.min(k(n), 4 - k(n), 1))
+  return toHex([f(5) * 255, f(3) * 255, f(1) * 255])
+}
+
+/** `#rrggbb` to HSV; a grey keeps hue 0. */
+export const hexToHsv = (hex: string): { h: number; s: number; v: number } => {
+  const [R, G, B] = toRgb(hex)
+  const r = R / 255
+  const g = G / 255
+  const b = B / 255
+  const max = Math.max(r, g, b)
+  const d = max - Math.min(r, g, b)
+  const h =
+    d === 0 ? 0 : max === r ? 60 * (((g - b) / d) % 6) : max === g ? 60 * ((b - r) / d + 2) : 60 * ((r - g) / d + 4)
+  return { h: (h + 360) % 360, s: max === 0 ? 0 : d / max, v: max }
+}

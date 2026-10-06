@@ -4,6 +4,19 @@ All notable changes to both plugins. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] — 2026-10-06
+
+### Theme Studio
+
+- **A color picker in Mix your own.** Click a slot's chip (Accent, Secondary,
+  Highlight, Text or Background), then click or drag in the saturation and
+  brightness field or the hue strip. The mixer updates live while you drag; the
+  color is saved, and the chat recolors if the custom theme is on, when you let go.
+  Works in the terminal and the desktop app; the hex boxes stay for exact values.
+- **🎲 Random theme** now picks from all 441 presets.
+- **🎨 Random mix** replaces Random neon: it rolls a palette in one of six styles
+  (neon, pastel, jewel, earthy, analogous, mono) instead of always neon.
+
 ## [1.1.0] — 2026-10-04
 
 ### Theme Studio

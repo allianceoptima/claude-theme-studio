@@ -18,13 +18,15 @@ import {
   inGroup,
   isPalette,
   pickRandom,
-  randomNeon,
+  randomMix,
   searchPresets,
   slug,
 } from './palette'
 import { PRESETS } from './presets'
 
 const PANE = 'theme-studio'
+// The mixer's color picker (a Client region drawn by ./picker.tsx).
+const MIXER = 'mixer'
 
 // ── State ────────────────────────────────────────────────────────────────
 // Session values live in $.state (they survive hot reloads); the ones worth
@@ -519,6 +521,22 @@ export const register: Register = on => {
     )
   })
 
+  // The mixer's picker posts each color it lands on; letting go saves it, and
+  // re-applies the custom theme when that is the one in use.
+  on('ui.message', { element: MIXER }, async ($, e) => {
+    const data = e.data as { slot?: unknown; hex?: unknown; final?: unknown } | null
+    const slot = SLOTS.find(s => s.slot === data?.slot)?.slot
+    const hex = typeof data?.hex === 'string' ? normalizeHex(data.hex) : null
+    if (!slot || !hex) return {}
+    const next = await update($, custom, c => ({ ...c, [slot]: hex }))
+    if (data?.final === true) {
+      await persist($, 'custom', next)
+      if ((await read($, active))?.id === 'custom') await apply($, { ...next, id: 'custom', name: 'Custom', group: MINE })
+      await update($, notice, () => `${slot} set to ${hex}`)
+    }
+    return {}
+  })
+
   // ── The studio ──────────────────────────────────────────────────────────
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
     const els = $.ui.resolve(e)
@@ -526,6 +544,8 @@ export const register: Register = on => {
     // Mobile draws no fields: collections become buttons and the mixer is hidden.
     const Input = 'Input' in els ? els.Input : undefined
     const Select = 'Select' in els ? els.Select : undefined
+    // The color picker needs a Client region: the terminal and the desktop app.
+    const Client = 'Client' in els ? els.Client : undefined
 
     const pal = await read($, active)
     const shown = await read($, group)
@@ -621,6 +641,24 @@ export const register: Register = on => {
         {Input ? (
           <Box flexDirection="column">
             {heading('MIX YOUR OWN')}
+            {Client ? (
+              <Client
+                key={MIXER}
+                module="./picker.tsx"
+                width={Math.min(48, Math.max(12, e.props.bodyColumns - 2))}
+                props={{
+                  colors: {
+                    accent: mixer.accent,
+                    secondary: mixer.secondary,
+                    highlight: mixer.highlight,
+                    text: mixer.text,
+                    background: mixer.background ?? null,
+                  },
+                  autoBackground: lookOf(mixer, canvas).replyBg,
+                }}
+              />
+            ) : null}
+            {Client ? <Text color={ui.muted}>Or type exact hex codes:</Text> : null}
             {SLOTS.map(({ slot, label }) => (
               <Box key={`slot-${slot}`} gap={1}>
                 <Text color={mixer[slot] ?? lookOf(mixer, canvas).replyBg}>██</Text>
@@ -658,12 +696,20 @@ export const register: Register = on => {
                 onPress={async () => apply($, { ...(await read($, custom)), id: 'custom', name: 'Custom', group: MINE })}
               />
               <Button
-                key="random-neon"
-                label="🎲 Random neon"
+                key="random-theme"
+                label={`🎲 Random theme (${PRESETS.length})`}
                 onPress={async () => {
-                  const next = await update($, custom, () => randomNeon())
+                  const pick = pickRandom()
+                  if (pick) await apply($, pick)
+                }}
+              />
+              <Button
+                key="random-mix"
+                label="🎨 Random mix"
+                onPress={async () => {
+                  const next = await update($, custom, () => randomMix())
                   await persist($, 'custom', next)
-                  await apply($, next)
+                  await apply($, { ...next, id: 'custom' })
                 }}
               />
             </Box>

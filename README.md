@@ -84,10 +84,15 @@ Your theme, saved mixes and options are remembered across sessions.
 
 ## Mix your own
 
-In the studio, set **Accent**, **Secondary**, **Highlight**, **Text** and an
-optional **Background** as hex codes (`#ff2bd6` or `f0f`), press **Apply custom**,
-then name it under **Save as** to keep it in *My themes*. **🎲 Random neon** rolls a
-split-complementary palette around a random hue.
+In the studio, click a slot's chip (**Accent**, **Secondary**, **Highlight**,
+**Text** or **Background**), then click or drag in the color field (saturation
+across, brightness down) or the hue strip below it. The mixer follows live while
+you drag and saves when you let go. Prefer exact values? Type a hex code
+(`#ff2bd6` or `f0f`) in the slot's box instead.
+
+Press **Apply custom**, then name it under **Save as** to keep it in *My themes*.
+**🎲 Random theme** applies any of the 441 presets; **🎨 Random mix** rolls a fresh
+palette in one of six styles: neon, pastel, jewel, earthy, analogous or mono.
 
 | Slot | Used for |
 | --- | --- |
